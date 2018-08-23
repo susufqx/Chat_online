@@ -9,7 +9,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import cryptographie.RSA;
 
-public class SocketServer extends WindowAdapter{
+public class SocketServer extends WindowAdapter {
     //**************************** socket et i/o stream ************************
     private ServerSocket serverSocket = null;
     private ObjectInputStream inputstream = null;
@@ -95,7 +95,6 @@ public class SocketServer extends WindowAdapter{
 
         Socket socket = null;
         int port = 8080;
-
         rsa = new RSA();
 
         try{
@@ -134,11 +133,11 @@ public class SocketServer extends WindowAdapter{
                     System.out.println(getKey);
                     iiii = 1;
                 }
+
                 System.out.println("秘钥是"+getKey);
                 frame2.setVisible(false);
                 frame1.setVisible(true);
                 Thread t = new Thread(new ClientHandler(socket));
-
                 t.start();
             }
         }catch(IOException e){

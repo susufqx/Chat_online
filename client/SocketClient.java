@@ -93,13 +93,11 @@ public class SocketClient extends WindowAdapter {
                 rsa.getKey();
                 publicKey = rsa.getPubKey();
                 privateKey = rsa.getPriKey();
-
                 System.out.println(publicKey);
                 os.writeObject(publicKey);
                 os.flush();
                 getKey = (RSAPublicKey) is.readObject();
                 client.gu.frame1.setVisible(false);
-
                 frame1.setTitle(clientNom);
                 frame1.setVisible(true);
 
@@ -109,18 +107,17 @@ public class SocketClient extends WindowAdapter {
                 client.t = false;
                 a = 1;
             }
-            // int temp;
+
             while (true) {
                 byte[] resultBytes = new byte[256];
-                // temp = is.read(resultBytes);
-                byte[] decBytes = rsa.decrypt(privateKey,resultBytes);
+                byte[] decBytes = rsa.decrypt(privateKey, resultBytes);
                 String dec = new String(decBytes);
 
                 if (chatText.getText().equals("")) {
-                    chatText.setText(chatText.getText()+"serveur:\n"+dec);
+                    chatText.setText(chatText.getText() + "serveur:\n" + dec);
                     chatEnter.setText("");
                 } else {
-                    chatText.setText(chatText.getText()+"\n"+"serveur:\n"+dec);
+                    chatText.setText(chatText.getText() + "\n" + "serveur:\n" + dec);
                     chatEnter.setText("");
                 }
             }
@@ -132,24 +129,24 @@ public class SocketClient extends WindowAdapter {
 
     public class buttonListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
-            String s  =  evt.getActionCommand();
+            String s = evt.getActionCommand();
             if (s.equals("Envoyer") && chatEnter.getText() != null) {
                 try {
                     String input = chatEnter.getText().toString();
-                    tempChar  =   input;
+                    tempChar = input;
                     if (chatText.getText().equals("")) {
-                        chatText.setText(chatText.getText()+clientNom+"：\n"+input);
+                        chatText.setText(chatText.getText() + clientNom + "：\n" + input);
                         chatEnter.setText("");
                     }else {
-                        chatText.setText(chatText.getText()+"\n"+clientNom+"：\n"+input);
+                        chatText.setText(chatText.getText() + "\n" + clientNom+"：\n" + input);
                         chatEnter.setText("");
                     }
 
-                    String  newtemp         =  clientNom+":\n"+tempChar;
-                    byte[]  srcBytes        =   newtemp.getBytes();
-                    byte[]  resultBytes     =   rsa.encrypt (getKey, srcBytes);
-                    os.            write(resultBytes);
-                    os.            flush();
+                    String newtemp = clientNom+":\n"+tempChar;
+                    byte[] srcBytes = newtemp.getBytes();
+                    byte[] resultBytes = rsa.encrypt (getKey, srcBytes);
+                    os.write(resultBytes);
+                    os.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
